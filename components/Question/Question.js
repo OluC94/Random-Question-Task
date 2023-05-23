@@ -1,9 +1,11 @@
-import QuestionVariables from "./variables/QuestionVariables";
+// won't need this, can delete
+
+import questionVariables from "./QuestionVariables";
 
 export default function Question() {
-  const questionString1 = `${QuestionVariables.multiplier1}${QuestionVariables.units} of ${QuestionVariables.item1} and ${QuestionVariables.multiplier2}${QuestionVariables.units} of ${QuestionVariables.item2} have a total ${QuestionVariables.totalDescription} of ${QuestionVariables.questionTotal1}${QuestionVariables.totalUnits}`;
-  const questionString2 = `${QuestionVariables.multiplier2}${QuestionVariables.units} of ${QuestionVariables.item1} and ${QuestionVariables.multiplier1}${QuestionVariables.units} of ${QuestionVariables.item2} have a total ${QuestionVariables.totalDescription} of ${QuestionVariables.questionTotal2}${QuestionVariables.totalUnits}`;
-  const questionString3 = `Work out the total ${QuestionVariables.totalDescription} of {1}${QuestionVariables.units} of ${QuestionVariables.item1} and {1}${QuestionVariables.units} of ${QuestionVariables.item2}`;
+  const questionString1 = `${questionVariables.multiplier1}${questionVariables.units} of ${questionVariables.item1} and ${questionVariables.multiplier2}${questionVariables.units} of ${questionVariables.item2} have a total ${questionVariables.totalDescription} of ${questionVariables.questionTotal1}${questionVariables.totalUnits}`;
+  const questionString2 = `${questionVariables.multiplier2}${questionVariables.units} of ${questionVariables.item1} and ${questionVariables.multiplier1}${questionVariables.units} of ${questionVariables.item2} have a total ${questionVariables.totalDescription} of ${questionVariables.questionTotal2}${questionVariables.totalUnits}`;
+  const questionString3 = `Work out the total ${questionVariables.totalDescription} of {1}${questionVariables.units} of ${questionVariables.item1} and {1}${questionVariables.units} of ${questionVariables.item2}`;
   return (
     <>
       <p>{questionString1}</p>
