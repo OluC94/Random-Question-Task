@@ -30,3 +30,5 @@ questionVariables.questionStr = `
   Work out the total ${questionVariables.totalDescription} of 1${questionVariables.units} of ${questionVariables.item1} and 1${questionVariables.units} of ${questionVariables.item2}.`;
 
 export default questionVariables;
+
+// need a createQuestionStr function that uses the state

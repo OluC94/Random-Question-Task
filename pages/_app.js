@@ -1,16 +1,31 @@
 import StaticMath from "../components/StaticMath/StaticMath";
 import MathInput from "../components/MathInput/MathInput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../public/styles/globals.css";
 import { evaluateTex } from "tex-math-parser";
 import Question from "../components/Question/Question";
 import questionVariables from "@/components/Question/QuestionVariables";
-import { verifyAnswer } from "../components/Question/QuestionUtils";
+import { randomiseVariables } from "../components/Question/QuestionRandomiser";
+import {
+  verifyAnswer,
+  createCorrectAnswer,
+  randomiseValues,
+  retrieveItems,
+  createQuestionStr,
+} from "../components/Question/QuestionUtils";
 
 export default function App({}) {
   const [memory, setMemory] = useState({});
   const [solutionShown, setSolutionShown] = useState(false);
-  const { correctAnswer, questionStr, totalUnits } = questionVariables;
+  const [value1, setValue1] = useState(randomiseValues()[0]);
+  const [value2, setValue2] = useState(randomiseValues()[1]);
+  const [totalUnits, setTotalUnits] = useState(questionVariables.totalUnits);
+  const [correctAnswer, setCorrectAnswer] = useState(
+    createCorrectAnswer(value1, value2, totalUnits)
+  );
+  const [multiplier1, setMultiplier1] = useState(randomiseValues(3, 9)[0]);
+  const [multiplier2, setMultiplier2] = useState(randomiseValues(3, 9)[1]);
+  const [questionString, setQuestionString] = useState("");
 
   function addToMemory(newValue) {
     setMemory((prev) => {
@@ -19,20 +34,30 @@ export default function App({}) {
   }
 
   function handleCheckAnswer() {
-    console.log("correct answer: ", correctAnswer, typeof correctAnswer);
     console.log(
       memory.mathinput1.defaultValue,
       typeof memory.mathinput1.defaultValue
     );
     // invoke the markingFunction with the user input
-    markingFunction(memory.mathinput1.defaultValue);
+    markingFunction(memory.mathinput1.defaultValue, correctAnswer, totalUnits);
     console.log("memory: ", memory);
-
-    // manage state so that the correct feedback is given
-
-    // need to parse possible correct solutions (e.g. 130 p, 130 pence?)
-    //
   }
+
+  useEffect(() => {
+    const questionStringData = {
+      value1,
+      value2,
+      multiplier1,
+      multiplier2,
+      units: "kg",
+      item1: "potatoes",
+      item2: "carrots",
+      totalDescription: "cost",
+      totalUnits,
+    };
+    setQuestionString(createQuestionStr(questionStringData));
+    console.log("question string", questionString);
+  }, []);
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -46,7 +71,7 @@ export default function App({}) {
         <StaticMath
           latex={`\\text{The <StaticMath /> component can be used to write text inline with latex equations: } x^2 + 3x - 2`}
         />
-        <StaticMath latex={`\\text{${questionStr}}`} />
+        <StaticMath latex={`\\text{${questionString}}`} />
         <br />
         <br />
         {solutionShown ? <StaticMath latex={`\\text{${correctAnswer}}`} /> : ""}
@@ -102,14 +127,15 @@ export default function App({}) {
   );
 }
 
-function markingFunction(userInput) {
+function markingFunction(userInput, correctAnswer, totalUnits) {
   let inputValue;
   console.log("userInput", userInput, typeof userInput);
+  console.log("correct answer: ", correctAnswer, typeof correctAnswer);
   // evaluateTex can only recieve numbers
 
   try {
     // remove the units if they are included in the answer
-    if (userInput[userInput.length - 1] === questionVariables.totalUnits) {
+    if (userInput[userInput.length - 1] === totalUnits) {
       userInput = userInput.substring(0, userInput.length - 1);
     }
     //the evaluateTex function takes a latex string as an input and returns the evaluation as a javascript number
@@ -120,7 +146,7 @@ function markingFunction(userInput) {
   }
 
   // evaluate answer to the question
-  if (inputValue === parseInt(questionVariables.correctAnswer)) {
+  if (inputValue === parseInt(correctAnswer)) {
     console.log("returning 1");
     return 1;
   } else {
