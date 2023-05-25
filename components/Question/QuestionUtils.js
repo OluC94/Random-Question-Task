@@ -17,8 +17,8 @@ export function getTwoRandomValues(min = 10, max = 150) {
   return uniqueNumbers;
 }
 
-export function createCorrectAnswer(value1, value2, units) {
-  return `${value1 + value2}${units}`;
+export function createCorrectAnswer(value1, value2) {
+  return `${value1 + value2}`;
 }
 
 // pass in an opbject containing all question variables
@@ -35,7 +35,6 @@ export function createQuestionStr(questionData) {
     totalDescription,
     isPluralisedUnits,
   } = questionData;
-  console.log("within qstring function: ", value1, value2, totalUnits);
 
   const questionTotal1 = multiplier1 * value1 + multiplier2 * value2;
   const questionTotal2 = multiplier2 * value1 + multiplier1 * value2;
@@ -55,29 +54,29 @@ function getRandomIndex(max) {
   return Math.floor(Math.random() * max);
 }
 
-export function retrieveItems(value) {
-  // take the first randomised value
+export function retrieveItems(value1, value2) {
   const itemData = {
     itemNames: [],
     units: "",
-    description: "",
+    totalDescription: "",
     totalUnits: "",
-    pluralisedUnits: false,
+    isPluralisedUnits: false,
   };
 
+  let i = 0;
   while (Object.keys(itemData.itemNames).length < 2) {
-    let i = 0;
-    // compare value with rangleLimit
-    if (value < items[i].rangeLimit) {
+    if (value1 + value2 > items[i].rangeLimit) {
+      i++;
+    } else {
       // get a random index for the item options
       const itemOptionIdx = getRandomIndex(items[i].itemOptions.length);
 
-      // extract the units, description and total units
+      // extract details for the question
       itemData.units = items[i].itemOptions[itemOptionIdx].units;
-      itemData.description = items[i].description;
+      itemData.totalDescription = items[i].description;
       itemData.totalUnits = items[i].totalUnits;
-      itemData.pluralisedUnits =
-        items[i].itemOptions[itemOptionIdx].pluralisedUnits;
+      itemData.isPluralisedUnits =
+        items[i].itemOptions[itemOptionIdx].isPluralisedUnits;
 
       // two random indexes for the item names
       const itemNamesIdxs = getTwoRandomValues(
@@ -85,47 +84,14 @@ export function retrieveItems(value) {
         items[i].itemOptions[itemOptionIdx].itemNames.length
       );
 
-      // turn this into a loop
       itemData.itemNames.push(
         items[i].itemOptions[itemOptionIdx].itemNames[itemNamesIdxs[0]]
       );
       itemData.itemNames.push(
         items[i].itemOptions[itemOptionIdx].itemNames[itemNamesIdxs[1]]
       );
-    } else {
-      i++;
     }
   }
 
   return itemData;
 }
-
-/* \
-need to randomise items
-
-access item variables:
-  items[i].itemOptions[randInt1].itemNames[randInt2]
-
-access units items[i].itemOptions[randInt1].units
-
-access usedItems:
-  items[i].itemOptions[randInt1].usedItems
-
-
-Aim - rick a random category, than pick two random items from that category
-0 - check the rangelimit - done
-1 - generate a randInt between 0 and items[i].itemOptions.length (not inclusive) done
-2 - extract the units (see above) - done
-3 - get two random numbers using range 0 to ...itemNames.length (not inclusive)
-4 - use these as the items
-
-
-
-To do
-- implement rangelimit fix -> use value 1 + value 2
-- fix the marking function
-
-
-
-update the solution so that it goes into detail
-*/

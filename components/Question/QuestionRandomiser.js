@@ -1,43 +1,89 @@
-import questionVariables from "../Question/QuestionVariables";
-
-export function retrieveItems(value) {}
-
-export function initUsedIndices() {
-  // initialise the usedIndices arrays in the items
-}
-
 export const items = [
-  // {
-  //   rangeLimit: 50,
-  //   description: "price",
-  //   totalUnits: "p",
-  //   itemOptions: [
-  //     {
-  //       itemNames: ["coffee", "tea", "sugar"],
-  //       units: "bag",
-  //       // pluralisedUnits: true,
-  //     },
-  //   ],
-  // },
   {
-    rangeLimit: 200,
+    rangeLimit: 180,
     description: "cost",
     totalUnits: "p",
     itemOptions: [
       {
-        itemNames: ["potatoes", "carrots", "lettuce", "cabbage"],
+        itemNames: [
+          "potatoes",
+          "carrots",
+          "lettuce",
+          "cabbage",
+          "tomatoes",
+          "broccoli",
+          "mushrooms",
+          "onions",
+          "green peppers",
+          "red peppers",
+          "yellow peppers",
+          "rice",
+          "pasta",
+        ],
         units: "kg",
-        pluralisedUnits: false,
+        isPluralisedUnits: false,
       },
       {
-        itemNames: ["milk", "bottled water", "orange juice", "lemon juice"],
+        itemNames: [
+          "dairy milk",
+          "bottled water",
+          "orange juice",
+          "lemon juice",
+          "pineapple juice",
+          "apple juice",
+          "energy drink",
+          "almond milk",
+        ],
         units: "L",
-        pluralisedUnits: false,
+        isPluralisedUnits: false,
       },
       {
-        itemNames: ["coffee", "tea", "sugar"],
+        itemNames: [
+          "coffee beans",
+          "tea leaves",
+          "sugar",
+          "hot chocolate",
+          "salt",
+          "pepper",
+          "grapes",
+          "cashew nuts",
+          "oranges",
+        ],
         units: "bag",
-        pluralisedUnits: true,
+        isPluralisedUnits: true,
+      },
+    ],
+  },
+  {
+    rangeLimit: 300,
+    description: "weight",
+    totalUnits: "kg",
+    itemOptions: [
+      {
+        itemNames: [
+          "TVs",
+          "fridges",
+          "microwaves",
+          "wooden pallets",
+          "solar panels",
+          "glass panels",
+        ],
+        units: "crate",
+        isPluralisedUnits: true,
+      },
+      {
+        itemNames: [
+          "crude oil",
+          "natural gas",
+          "chlorine gas",
+          "liquid helium",
+          "nitrogen gas",
+          "resin",
+          "ammonia",
+          "sulphuric acid",
+        ],
+        units: "container",
+        isPluralisedUnits: true,
       },
     ],
   },
