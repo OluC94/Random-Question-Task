@@ -9,7 +9,7 @@ import { randomiseVariables } from "../components/Question/QuestionRandomiser";
 import {
   verifyAnswer,
   createCorrectAnswer,
-  randomiseValues,
+  getTwoRandomValues,
   retrieveItems,
   createQuestionStr,
 } from "../components/Question/QuestionUtils";
@@ -17,14 +17,25 @@ import {
 export default function App({}) {
   const [memory, setMemory] = useState({});
   const [solutionShown, setSolutionShown] = useState(false);
-  const [value1, setValue1] = useState(randomiseValues()[0]);
-  const [value2, setValue2] = useState(randomiseValues()[1]);
-  const [totalUnits, setTotalUnits] = useState(questionVariables.totalUnits);
+  const [value1, setValue1] = useState(getTwoRandomValues()[0]);
+  const [value2, setValue2] = useState(getTwoRandomValues()[1]);
+
+  const [multiplier1, setMultiplier1] = useState(getTwoRandomValues(3, 9)[0]);
+  const [multiplier2, setMultiplier2] = useState(getTwoRandomValues(3, 9)[1]);
+  const [itemData, setItemData] = useState(retrieveItems(value1));
+  const [totalUnits, setTotalUnits] = useState(itemData.totalUnits);
+  const [totalDescription, setTotalDescription] = useState(
+    itemData.description
+  );
+  const [units, setUnits] = useState(itemData.units);
+  const [item1, setItem1] = useState(itemData.itemNames[0]);
+  const [item2, setItem2] = useState(itemData.itemNames[1]);
+  const [isPluralisedUnits, setIsPluralisedUnits] = useState(
+    itemData.pluralisedUnits
+  );
   const [correctAnswer, setCorrectAnswer] = useState(
     createCorrectAnswer(value1, value2, totalUnits)
   );
-  const [multiplier1, setMultiplier1] = useState(randomiseValues(3, 9)[0]);
-  const [multiplier2, setMultiplier2] = useState(randomiseValues(3, 9)[1]);
   const [questionString, setQuestionString] = useState("");
 
   function addToMemory(newValue) {
@@ -44,19 +55,22 @@ export default function App({}) {
   }
 
   useEffect(() => {
+    console.log("rendered");
+
     const questionStringData = {
       value1,
       value2,
       multiplier1,
       multiplier2,
-      units: "kg",
-      item1: "potatoes",
-      item2: "carrots",
-      totalDescription: "cost",
+      units,
+      item1,
+      item2,
+      totalDescription,
       totalUnits,
+      isPluralisedUnits,
     };
+
     setQuestionString(createQuestionStr(questionStringData));
-    console.log("question string", questionString);
   }, []);
 
   return (

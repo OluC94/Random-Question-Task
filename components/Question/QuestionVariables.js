@@ -1,3 +1,5 @@
+// will eventually need to be deleted
+
 const questionVariables = {
   value1: 80,
   value2: 50,
