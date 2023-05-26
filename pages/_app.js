@@ -44,10 +44,9 @@ export default function App({}) {
     if (
       markingFunction(memory.mathinput1.defaultValue, correctAnswer, totalUnits)
     ) {
-      console.log(memory);
       setMemory((currMemory) => {
         const updatedMemory = { ...currMemory };
-        updatedMemory.mathinput1.score = currMemory.mathinput1.score;
+        updatedMemory.mathinput1.score = 1;
         return updatedMemory;
       });
     }
